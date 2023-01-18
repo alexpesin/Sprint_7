@@ -1,3 +1,5 @@
+package courier;
+
 import static java.time.LocalTime.now;
 
 public class CourierGenerator {

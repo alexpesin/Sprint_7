@@ -1,4 +1,5 @@
 import io.restassured.response.ValidatableResponse;
+import order.OrderClient;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,9 +22,7 @@ public class GetOrderLIstTest {
 
         ValidatableResponse createResponse = orderClient.getOrderList();
         int createStatusCode = createResponse.extract().statusCode();
-        String createStatusLine = createResponse.extract().statusLine();
-
         assertEquals(SC_OK, createStatusCode);
-        assertEquals(createStatusLine, "HTTP/1.1 200 OK");
+
     }
 }

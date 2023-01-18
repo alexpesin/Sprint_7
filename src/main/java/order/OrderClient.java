@@ -1,9 +1,12 @@
+package order;
+
+import client.Client;
 import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
 
-public class OrderClient extends Client{
+public class OrderClient extends Client {
 
     private static final String CREATE_ORDER = "/api/v1/orders";
     private static final String GET_ORDER_LIST = "/api/v1/orders";

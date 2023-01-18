@@ -1,4 +1,8 @@
 import io.restassured.response.ValidatableResponse;
+import order.Order;
+import order.OrderClient;
+import order.OrderGenerator;
+import order.ScooterColor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,11 +67,8 @@ public class OrderCreateTest {
         }
         ValidatableResponse createResponse = orderClient.createOrder(order);
         int createStatusCode = createResponse.extract().statusCode();
-        String createStatusLine = createResponse.extract().statusLine();
 
         assertEquals(SC_CREATED, createStatusCode);
-        assertEquals(createStatusLine, "HTTP/1.1 201 Created");
-
     }
 }
 

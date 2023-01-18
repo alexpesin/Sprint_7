@@ -1,3 +1,7 @@
+import courier.Courier;
+import courier.CourierClient;
+import courier.CourierCredentials;
+import courier.CourierGenerator;
 import io.restassured.response.ValidatableResponse;
 
 import org.junit.Before;
@@ -23,13 +27,11 @@ public class LoginCourierWithInvalidCredsTest {
 
         courier = CourierGenerator.getRandomCourier();
 
-        ValidatableResponse loginResponse = courierClient.loginWithInvalidCreds(CourierCredentials.getCourierCredentials(courier));
+        ValidatableResponse loginResponse = courierClient.login(CourierCredentials.getCourierCredentials(courier));
         int loginStatusCode = loginResponse.extract().statusCode();
-        String loginStatusLine = loginResponse.extract().statusLine();
         String message = loginResponse.extract().path("message");
 
         assertEquals(SC_NOT_FOUND, loginStatusCode);
-        assertEquals(loginStatusLine, "HTTP/1.1 404 Not Found");
         assertEquals(message, "Учетная запись не найдена");
 
     }
@@ -38,13 +40,11 @@ public class LoginCourierWithInvalidCredsTest {
     public void courierWithNoLoginAndPasswordShouldNotLogin() {
         courier = CourierGenerator.getNoCredsCourier();
 
-        ValidatableResponse loginResponse = courierClient.loginWithInvalidCreds(CourierCredentials.getCourierCredentials(courier));
+        ValidatableResponse loginResponse = courierClient.login(CourierCredentials.getCourierCredentials(courier));
         int loginStatusCode = loginResponse.extract().statusCode();
-        String loginStatusLine = loginResponse.extract().statusLine();
         String message = loginResponse.extract().path("message");
 
         assertEquals(SC_BAD_REQUEST, loginStatusCode);
-        assertEquals(loginStatusLine, "HTTP/1.1 400 Bad Request");
         assertEquals(message, "Недостаточно данных для входа");
 
     }

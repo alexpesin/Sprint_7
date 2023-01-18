@@ -1,4 +1,9 @@
+import courier.Courier;
+import courier.CourierClient;
+import courier.CourierCredentials;
+import courier.CourierGenerator;
 import io.restassured.response.ValidatableResponse;
+import org.hamcrest.MatcherAssert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -6,8 +11,8 @@ import org.junit.Test;
 
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_OK;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.*;
 
 public class CreateCourierWithValidDataTest {
 
@@ -29,17 +34,17 @@ public class CreateCourierWithValidDataTest {
 
         ValidatableResponse createResponse = courierClient.createCourier(courier);
         int createStatusCode = createResponse.extract().statusCode();
-        String createStatusLine = createResponse.extract().statusLine();
         boolean isTrue = createResponse.extract().path("ok");
 
         assertEquals(SC_CREATED, createStatusCode);
-        assertEquals(createStatusLine, "HTTP/1.1 201 Created");
         assertTrue(isTrue);
 
         ValidatableResponse loginResponse = courierClient.login(CourierCredentials.getCourierCredentials(courier));
+
         id = loginResponse.extract().path("id");
         int loginStatusCode = loginResponse.extract().statusCode();
 
+        MatcherAssert.assertThat(id, notNullValue());
         assertEquals(SC_OK,
                 loginStatusCode);
 
@@ -50,17 +55,16 @@ public class CreateCourierWithValidDataTest {
 
         ValidatableResponse createResponse = courierClient.createCourier(courierWithoutFirstName);
         int createStatusCode = createResponse.extract().statusCode();
-        String createStatusLine = createResponse.extract().statusLine();
         boolean isTrue = createResponse.extract().path("ok");
 
         assertEquals(SC_CREATED, createStatusCode);
-        assertEquals(createStatusLine, "HTTP/1.1 201 Created");
         assertTrue(isTrue);
 
         ValidatableResponse loginResponse = courierClient.login(CourierCredentials.getCourierCredentials(courierWithoutFirstName));
         id = loginResponse.extract().path("id");
         int loginStatusCode = loginResponse.extract().statusCode();
 
+        MatcherAssert.assertThat(id, notNullValue());
         assertEquals(SC_OK,
                 loginStatusCode);
     }

@@ -1,3 +1,5 @@
+package order;
+
 public class OrderGenerator {
 
     public static Order getDefaultOrder(){

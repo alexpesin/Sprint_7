@@ -1,3 +1,4 @@
+package order;
 
 public enum ScooterColor {
     BLACK,
